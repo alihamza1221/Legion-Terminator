@@ -30,9 +30,10 @@ public class UserPlayMenu extends LevelHandlers {
 
                 current_user[][] Play_Board = new current_user[10][10];
                 while (level < 10) {
-                    System.out.println("You are in :" + current_level + " level");
+                    System.out.println("You are in:" + current_level + " level");
                     System.out.println("You have " + current_level + " enemy");
                     setCurrentLevel(current_level);
+                    System.out.println("after_passing_setcurrnet_level:" + current_level + " \n");
 
                     PlaceEnemies(Play_Board, enemies.length);
                     System.out.println("enemies length_check> " + enemies.length);
@@ -40,30 +41,7 @@ public class UserPlayMenu extends LevelHandlers {
                     gamePlay(Play_Board, enemies.length);
 
                 }
-                switch (level) {
-                    case 1:
 
-                        break;
-                    case 2:
-                        System.out.println("You have chosen Medium level");
-                        setCurrentLevel(level);
-                        System.out.println("You have " + current_level + " enemies");
-                        PlaceEnemies(Play_Board, enemies.length);
-                        break;
-                    case 3:
-                        System.out.println("You have chosen Hard level");
-                        setCurrentLevel(level);
-                        System.out.println("You have " + current_level + " enemies");
-                        PlaceEnemies(Play_Board, enemies.length);
-                        break;
-                    case 4:
-                        System.out.println("You have chosen to exit");
-                        System.exit(0);
-                        break;
-                    default:
-                        System.out.println("Invalid choice");
-                        break;
-                }
                 Cards card = (Cards) player;
                 System.out.println("Player Health: " + player.getPlayer_Health() + " Heal_Cards:" + card.getHeal_cards()
                         + " Attack_Cards:" + card.getAttack_cards() + " Defense_Cards:" + card.getDefense_cards()
@@ -76,9 +54,11 @@ public class UserPlayMenu extends LevelHandlers {
     }
 
     public void setCurrentLevel(int level) {
-        current_level = level;
-        enemy_Array_length_Adjutment();
+        System.out.println("Current Level_inside_setcurrent: " + current_level + "level:" + level + "\n");
 
+        current_level = level;
+
+        enemy_Array_length_Adjutment(level);
     }
 
     public void gamePlay(current_user[][] Play_Board, int size) {
@@ -93,6 +73,7 @@ public class UserPlayMenu extends LevelHandlers {
             Scanner sc = new Scanner(System.in);
             int cardChoice = sc.nextInt();
             Cards userPlayer = (Cards) player;
+            boolean result = false;
             switch (cardChoice) {
 
                 case 1:
@@ -111,10 +92,12 @@ public class UserPlayMenu extends LevelHandlers {
                     enemyHealthDecreaseOnAttack(Play_Board, size);
 
                     // check that if all enemies are dead level completed
-                    boolean result = super.isLevelCompleted(Play_Board, size);
+                    result = super.isLevelCompleted(Play_Board, size);
                     if (result) {
                         System.out.println("Level: " + current_level + " Completed 🏆");
                         current_level++;
+                        // call init func for enemy
+                        // setCurrentLevel(current_level);
                         System.out.println("dummy check gameplay complete condtion: current_level: " + current_level);
                         break;
                     }
@@ -159,12 +142,19 @@ public class UserPlayMenu extends LevelHandlers {
 
                 case 4:
                     System.out.println("You have chosen Replinish card");
+                    if (userPlayer.getReplinish_cards() <= 0) {
+                        System.out.println("You have no Replinish cards left!");
+                        break;
+                    }
                     ReplanishCardUse(player);// The randomization methods are defined in the Mechanism Class
                     break;
                 default:
                     System.out.println("Invalid choice");
                     break;
             }
+            if (result)
+                break;
+            HandleEnemyTurn(Play_Board, size);
 
         }
     }
@@ -182,6 +172,7 @@ public class UserPlayMenu extends LevelHandlers {
     }
 
     void enemyHealthDecreaseOnAttack(current_user[][] Play_Board, int size) {
+        System.out.println("current_level:{" + current_level + "}");
         int attackPowerCount = current_level / 2 + 1;
         for (current_user[] e : Play_Board) {
             for (current_user f : e) {
@@ -189,13 +180,14 @@ public class UserPlayMenu extends LevelHandlers {
                     if (f.enemy instanceof Cards) {
                         Cards enemyCards = (Cards) f.enemy;
                         enemyCards.setPlayer_Health(enemyCards.getPlayer_Health() - 1);
+                        System.out.println("e_health: {" + enemyCards.getPlayer_Health() + "}");
                         attackPowerCount--;
-                        if (attackPowerCount == 0) {
-                            break;
-                        }
                         if (enemyCards.getPlayer_Health() == 0) {
                             System.out.println("Enemy is dead");
                             // f = null;
+                        }
+                        if (attackPowerCount == 0) {
+                            break;
                         }
 
                     }

@@ -1,6 +1,7 @@
 package Mechanism;
 
 import Player_and_Utils.Boss;
+import Player_and_Utils.Cards;
 import Player_and_Utils.Enemy;
 import Player_and_Utils.Player;
 import Player_and_Utils.User;
@@ -16,7 +17,7 @@ public class LevelHandlers extends Mechanism {
         System.out.println("Boss Health: " + boss.getPlayer_Health());
     }
 
-    class current_user {
+    public class current_user {
         int user_health;
         Player enemy;
         int current_row_position;
@@ -38,17 +39,21 @@ public class LevelHandlers extends Mechanism {
     }
 
     // Level completion check method
+    int total_enemies_dead = 0;
 
     public boolean isLevelCompleted(current_user[][] Play_Board, int total_enemies) {
-        int total_enemies_dead = 0;
 
         // coment this code below
         System.out.println("iscompleted function check is called<>");
         for (current_user[] e : Play_Board) {
             for (current_user f : e) {
                 if (f != null) {
-                    System.out.print(" player_health: " + f.user_health + "e_health: " + f.enemy.getPlayer_Health()
-                            + "e_toalCards:" + " pos:" + f.current_row_position + "\n");
+                    if (f.enemy instanceof Cards) {
+                        Cards enemy = (Cards) f.enemy;
+                        System.out.print(" player_health: " + f.user_health + " e_health: " + f.enemy.getPlayer_Health()
+                                + " e_toalCards:" + enemy.getTotal_cards() + " pos:" + f.current_row_position + "\n");
+
+                    }
                 }
             }
         }
@@ -60,13 +65,19 @@ public class LevelHandlers extends Mechanism {
                 if (f != null) {
                     System.out.println("Player_close_death: " + f.enemy.getPlayer_Health());
                     if (f.enemy.getPlayer_Health() <= 0) {
-                        f = null;// set the enemy to null
+                        f = null; // set the enemy to null
                         Play_Board[i][j] = null;
                         total_enemies_dead++;
+                        System.out.println("total_enemies_dead: " + total_enemies_dead);
+                        enemies[j] = null;
                     }
                     if (total_enemies_dead == total_enemies) {
+                        System.out.println("All enemies dead huu!{<>}");
+                        total_enemies_dead = 0;
+
                         return true;
                     }
+
                 }
                 j++;
             }
