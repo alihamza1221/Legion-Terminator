@@ -22,14 +22,18 @@ public class Enemy extends Cards {
 
     public static boolean[] EnemyAttack(current_user[][] playBoard, int total_e, Player player, Player[] enemies) {
         int random_enemy_attack = (int) (Math.random() * total_e) + 1;
-        random_enemy_attack = random_enemy_attack % 2;
+        random_enemy_attack = (random_enemy_attack % 2) + 1;
         // player.setPlayer_Health(player.getPlayer_Health() - random_enemy_attack);
 
         int total_attacks = 0;
         int i = 0;
+        System.out.println("is attack found:" + random_enemy_attack);
         while (total_attacks < random_enemy_attack && i < enemies.length) {
+
             if (enemies[i] instanceof Cards) {
+
                 Cards enemy = (Cards) enemies[i];
+                System.out.println("---{ " + enemy.getAttack_cards() + "}");
                 if (enemy.getAttack_cards() > 0) {
                     enemy.setAttack_cards(enemy.getAttack_cards() - 1);
                     enemy.setTotal_cards(enemy.getTotal_cards() - 1);
@@ -47,6 +51,7 @@ public class Enemy extends Cards {
         }
 
         i = 0;
+
         int count_leftAttacks = 0;
         while (i < enemies.length) {
             if (enemies[i] instanceof Cards) {
@@ -67,7 +72,7 @@ public class Enemy extends Cards {
     public static void EnemyDefense(current_user[][] playBoard, int total_e, Player player, Player[] enemies) {
 
         int random_enemy_defense = (int) (Math.random() * total_e) + 1;
-        random_enemy_defense = random_enemy_defense % 2;
+        random_enemy_defense = (random_enemy_defense % 2) + 1;
 
         int total_defenses = 0;
         int i = 0;
@@ -104,7 +109,7 @@ public class Enemy extends Cards {
     public static void EnemyHeal(current_user[][] playBoard, int total_e, Player player, Player[] enemies) {
 
         int random_enemy_heal = (int) (Math.random() * total_e) + 1;
-        random_enemy_heal = random_enemy_heal % 2;
+        random_enemy_heal = (random_enemy_heal % 2) + 1;
 
         int total_heals = 0;
         int i = 0;
@@ -142,7 +147,7 @@ public class Enemy extends Cards {
             int choosenCard) {
 
         int random_enemy_replinish = (int) (Math.random() * total_e) + 1;
-        random_enemy_replinish = random_enemy_replinish % 2;
+        random_enemy_replinish = (random_enemy_replinish % 2) + 1;
 
         int total_replinish = 0;
         int i = 0;

@@ -48,11 +48,14 @@ public class Mechanism extends Player {
         return choosenCard;
     }
 
+    boolean[] e_turn_res = new boolean[2];
+
     protected void HandleEnemyTurn(current_user[][] playBoard, int total_e) {
         int cardNo = EnemyCardPicker();
         System.out.println("EnemyCardPicker:" + cardNo);
+
         if (cardNo == 1) {
-            Enemy.EnemyAttack(playBoard, total_e, player, enemies);
+            e_turn_res = Enemy.EnemyAttack(playBoard, total_e, player, enemies);
         } else if (cardNo == 2) {
             Enemy.EnemyDefense(playBoard, total_e, player, enemies);
         } else if (cardNo == 3) {

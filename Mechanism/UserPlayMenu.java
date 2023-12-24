@@ -1,23 +1,44 @@
 package Mechanism;
 
 import Player_and_Utils.Cards;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import Game_Frontend_GUI.Enemy_Postions;
 import Player_and_Utils.Cards;
 import Player_and_Utils.Player;
+import Player_and_Utils.User;
 
 public class UserPlayMenu extends LevelHandlers {
-    public UserPlayMenu() {
+    public UserPlayMenu(JFrame frame, JPanel hero_section_panel) {
         System.out.println("Welcome to Legion Terminator");
+        JPanel enemy_layout_panel;
+        try {
+            enemy_layout_panel = e_layout_add();
+            hero_section_panel.add(enemy_layout_panel, BorderLayout.CENTER);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         char choice;
         Scanner sc = new Scanner(System.in);
         System.out.println("Play game : (y/n)");
         choice = sc.next().charAt(0);
 
+        if (choice == 'n' || choice == 'N')
+            return;
         while ((choice != 'n') || (choice != 'N')) {
             if ((choice == 'y') || (choice == 'Y')) {
                 System.out.println("Enter your name: ");
                 String name = sc.next();
+                User user = (User) player;
+                user.player_name = name;
                 System.out.println("Welcome " + name + " to Legion Terminator");
                 System.out.println("Choose your level: ");
                 System.out.println("1. Easy");
@@ -29,6 +50,7 @@ public class UserPlayMenu extends LevelHandlers {
                 // currentTimeInSeconds = currentTimeInSeconds + level;
 
                 current_user[][] Play_Board = new current_user[10][10];
+                current_level = level;
                 while (level < 10) {
                     System.out.println("You are in:" + current_level + " level");
                     System.out.println("You have " + current_level + " enemy");
@@ -39,7 +61,14 @@ public class UserPlayMenu extends LevelHandlers {
                     System.out.println("enemies length_check> " + enemies.length);
                     // Game rules and gamePlay starts from here
                     gamePlay(Play_Board, enemies.length);
-
+                    if (player.getPlayer_Health() <= 0) {
+                        System.out.println("Game over you dead!");
+                        break;
+                    }
+                    Cards temp = (Cards) player;
+                    temp.setAttack_cards(temp.getAttack_cards() + 1);
+                    System.out.println("after_passing_gameplay:" + current_level + " \n" + "attackCard + 2"
+                            + temp.getAttack_cards());
                 }
 
                 Cards card = (Cards) player;
@@ -51,6 +80,16 @@ public class UserPlayMenu extends LevelHandlers {
                 DisplayEnemycharacteristics(Play_Board);
             }
         }
+    }
+
+    JPanel e_layout_add() throws Exception {
+        JPanel enemy_layout_panel = new JPanel();
+        enemy_layout_panel.setLayout(new FlowLayout());
+
+        for (int i = 0; i < current_level; i++) {
+            Enemy_Postions.PlaceEnemiesInstances(enemy_layout_panel);
+        }
+        return (enemy_layout_panel);
     }
 
     public void setCurrentLevel(int level) {
@@ -155,6 +194,17 @@ public class UserPlayMenu extends LevelHandlers {
             if (result)
                 break;
             HandleEnemyTurn(Play_Board, size);
+            if (e_turn_res[0] == true && e_turn_res[1] == false) {
+                // game over
+                break;
+
+            } else if (e_turn_res[0] == false && e_turn_res[1] == true) {
+                // next level
+                current_level++;
+                break;
+            } else {
+                // successfull attack
+            }
 
         }
     }

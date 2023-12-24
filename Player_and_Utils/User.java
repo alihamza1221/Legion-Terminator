@@ -2,6 +2,7 @@ package Player_and_Utils;
 
 public class User extends Cards {
     // pass parameters to the super class constructor.
+    public String player_name;
 
     public User(int player_health, int total_cards, int player_attack_cards, int player_defense_cards,
             int player_heal_cards, int player_replinish_cards) {
