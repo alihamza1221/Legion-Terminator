@@ -85,9 +85,20 @@ public class Menu {
         JPanel hero_section_panel = new JPanel();
         hero_section_panel.setLayout(new BorderLayout());
 
+        Hero_Section.user_hero_section(hero_section_panel);
+        hero_section_panel.setVisible(true);
+        // cards
+
+        frame.setLayout(new BorderLayout());
+        frame.setIconImage(logo_icon.getImage());
+        frame.add(panel_top, BorderLayout.NORTH);
+        frame.add(panel_left, BorderLayout.WEST);
+        frame.add(hero_section_panel, BorderLayout.CENTER);
+        // frame.add(panel_bottom, BorderLayout.SOUTH);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UserPlayMenu user_game_menu = null;
         try {
-            user_game_menu = new UserPlayMenu(frame, hero_section_panel);
+            user_game_menu = new UserPlayMenu(frame, hero_section_panel, panel_bottom);
 
         } catch (Exception e) {
             System.out.println("Something went wrong inside the enemies collection array" + e);
@@ -95,20 +106,11 @@ public class Menu {
             System.out.println("--\nlen:" + user_game_menu.enemies.length);
         }
 
-        Hero_Section.user_hero_section(hero_section_panel);
-        hero_section_panel.setVisible(true);
-
-        // cards
         Card_Graphics card = new Card_Graphics();
         card.addCardstoPanel(panel_bottom);
-
-        frame.setLayout(new BorderLayout());
-        frame.setIconImage(logo_icon.getImage());
-        frame.add(panel_top, BorderLayout.NORTH);
-        frame.add(panel_left, BorderLayout.WEST);
         frame.add(hero_section_panel, BorderLayout.CENTER);
         frame.add(panel_bottom, BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
         frame.setVisible(true);
 
     }

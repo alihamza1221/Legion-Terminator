@@ -12,14 +12,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Card_Graphics implements MouseListener {
+import Mechanism.UserPlayMenu;
+
+public class Card_Graphics extends UserPlayMenu implements MouseListener {
     JLabel attackCJLabel, healJLabel, defenseJLabel, replinishJLabel;
 
     public Card_Graphics() {
 
     }
 
-    void addCardstoPanel(JPanel panel_bottom) {
+    UserPlayMenu user_menu_instance = null;
+
+    public void addCardstoPanel(JPanel panel_bottom) {
 
         attackCJLabel = new JLabel("Attack Cards");
         healJLabel = new JLabel("Heal Cards");
@@ -90,27 +94,43 @@ public class Card_Graphics implements MouseListener {
     public void mousePressed(MouseEvent e) {
 
         if (e.getSource() == attackCJLabel) {
+            cardChoice = 1;
+
             ImageIcon icon = (ImageIcon) attackCJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 215, Image.SCALE_SMOOTH);
             attackCJLabel.setIcon(new ImageIcon(img));
+
+            gameplay_trigger();
+
         }
 
         else if (e.getSource() == healJLabel) {
+            cardChoice = 2;
             ImageIcon icon = (ImageIcon) healJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 215, Image.SCALE_SMOOTH);
             healJLabel.setIcon(new ImageIcon(img));
+
+            gameplay_trigger();
         }
 
         else if (e.getSource() == defenseJLabel) {
+            cardChoice = 3;
+
             ImageIcon icon = (ImageIcon) defenseJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 215, Image.SCALE_SMOOTH);
             defenseJLabel.setIcon(new ImageIcon(img));
+
+            gameplay_trigger();
         }
 
         else if (e.getSource() == replinishJLabel) {
+            cardChoice = 4;
+
             ImageIcon icon = (ImageIcon) replinishJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 215, Image.SCALE_SMOOTH);
             replinishJLabel.setIcon(new ImageIcon(img));
+
+            gameplay_trigger();
         }
 
     }
@@ -119,23 +139,27 @@ public class Card_Graphics implements MouseListener {
     public void mouseReleased(MouseEvent e) {
 
         if (e.getSource() == attackCJLabel) {
+
             ImageIcon icon = (ImageIcon) attackCJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 200, Image.SCALE_SMOOTH);
             attackCJLabel.setIcon(new ImageIcon(img));
 
         } else if (e.getSource() == healJLabel) {
+
             ImageIcon icon = (ImageIcon) healJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 200, Image.SCALE_SMOOTH);
             healJLabel.setIcon(new ImageIcon(img));
         }
 
         else if (e.getSource() == defenseJLabel) {
+
             ImageIcon icon = (ImageIcon) defenseJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 200, Image.SCALE_SMOOTH);
             defenseJLabel.setIcon(new ImageIcon(img));
         }
 
         else if (e.getSource() == replinishJLabel) {
+
             ImageIcon icon = (ImageIcon) replinishJLabel.getIcon();
             Image img = icon.getImage().getScaledInstance(-1, 200, Image.SCALE_SMOOTH);
             replinishJLabel.setIcon(new ImageIcon(img));

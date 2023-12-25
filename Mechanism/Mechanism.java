@@ -24,6 +24,8 @@ public class Mechanism extends Player {
     }
 
     void enemy_Array_length_Adjutment(int level) {
+        if (level < 1)
+            return;
         Player[] temp = new Player[level];
 
         for (int i = 0; i < temp.length; i++) {

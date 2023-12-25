@@ -4,18 +4,31 @@ import Player_and_Utils.Cards;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import Game_Frontend_GUI.Card_Graphics;
 import Game_Frontend_GUI.Enemy_Postions;
 import Player_and_Utils.Cards;
 import Player_and_Utils.Player;
 import Player_and_Utils.User;
 
 public class UserPlayMenu extends LevelHandlers {
-    public UserPlayMenu(JFrame frame, JPanel hero_section_panel) {
+    public int cardChoice = 0;
+    public current_user[][] Play_Board = null;
+
+    public UserPlayMenu() {
+    };
+
+    public UserPlayMenu(JFrame frame, JPanel hero_section_panel, JPanel panel_bottom) throws InterruptedException {
         System.out.println("Welcome to Legion Terminator");
         JPanel enemy_layout_panel;
         try {
@@ -26,41 +39,87 @@ public class UserPlayMenu extends LevelHandlers {
             e.printStackTrace();
         }
 
-        char choice;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Play game : (y/n)");
-        choice = sc.next().charAt(0);
+        ImageIcon diolog_image = new ImageIcon("Game_Frontend_GUI\\Images\\startDiolgimage.jpg");
+        Image scaledImage = diolog_image.getImage().getScaledInstance(-1, 250, Image.SCALE_SMOOTH);
+        diolog_image = new ImageIcon(scaledImage);
 
-        if (choice == 'n' || choice == 'N')
-            return;
-        while ((choice != 'n') || (choice != 'N')) {
-            if ((choice == 'y') || (choice == 'Y')) {
-                System.out.println("Enter your name: ");
-                String name = sc.next();
+        JPanel yes_no_panel = new JPanel(new BorderLayout());
+        JLabel messageLabel = new JLabel("Play Legion Terminaotr!");
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        messageLabel.setIcon(diolog_image);
+        messageLabel.setHorizontalTextPosition(JLabel.CENTER);
+        messageLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        yes_no_panel.add(messageLabel, BorderLayout.CENTER);
+
+        int response = JOptionPane.YES_NO_OPTION;
+
+        // char choice;
+        Scanner sc = new Scanner(System.in);
+
+        while (response == JOptionPane.YES_OPTION) {
+            response = JOptionPane.showOptionDialog(null, yes_no_panel, "Legion Terminator", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, null, null);
+            if (response == JOptionPane.NO_OPTION)
+                return;
+            if (response == JOptionPane.YES_OPTION) {
+                // System.out.println("Enter your name: ");
+                // String name = sc.next();
+                String name = JOptionPane.showInputDialog("Enter your name: ");
                 User user = (User) player;
                 user.player_name = name;
-                System.out.println("Welcome " + name + " to Legion Terminator");
-                System.out.println("Choose your level: ");
-                System.out.println("1. Easy");
-                System.out.println("2. Medium");
-                System.out.println("3. Hard");
-                System.out.println("4. Exit");
-                int level = sc.nextInt();
+                // System.out.println("Welcome " + name + " to Legion Terminator");
+                JOptionPane.showMessageDialog(null, "Welcome " + name + " to Legion Terminator");
+
+                // System.out.println("Choose your level: ");
+                // System.out.println("1. Easy");
+                // System.out.println("2. Medium");
+                // System.out.println("3. Hard");
+                // System.out.println("4. Exit");
+                // int level = sc.nextInt();
+                String[] level_choices = { "Easy", "Medium", "Hard", "Exit" };
+                int level = JOptionPane.showOptionDialog(null, "Choose your level: ", "Legion Terminator",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, level_choices, level_choices[0]);
+                level = level + 1;
                 // level == Speed of the enemy approching towards the end
                 // currentTimeInSeconds = currentTimeInSeconds + level;
 
-                current_user[][] Play_Board = new current_user[10][10];
+                Play_Board = new current_user[10][10];
                 current_level = level;
-                while (level < 10) {
-                    System.out.println("You are in:" + current_level + " level");
-                    System.out.println("You have " + current_level + " enemy");
+                // final Object lock = new Object();
+                while (level < 10 && current_level > 0 && current_level < 10) {
+                    // System.out.println("You are in:" + current_level + " level");
+                    // System.out.println("You have " + current_level + " enemy");
+
+                    // JOptionPane.showMessageDialog(null, "WELCOME YOU ARE IN " + current_level + "
+                    // LEVEL");
+
                     setCurrentLevel(current_level);
                     System.out.println("after_passing_setcurrnet_level:" + current_level + " \n");
 
                     PlaceEnemies(Play_Board, enemies.length);
-                    System.out.println("enemies length_check> " + enemies.length);
+                    System.out.println("enemies length_check_after placement_top_loop " + enemies.length);
                     // Game rules and gamePlay starts from here
                     gamePlay(Play_Board, enemies.length);
+
+                    // Run the GUI in a separate thread
+                    // SwingUtilities.invokeLater(new Runnable() {
+                    // public void run() {
+                    //
+                    // synchronized (lock) {
+                    // lock.notify();
+                    // }
+                    // }
+                    // });
+
+                    // Wait until the GUI has finished updating
+                    // synchronized (lock) {
+                    // try {
+                    // lock.wait();
+                    // } catch (InterruptedException e) {
+                    // e.printStackTrace();
+                    // }
+                    // }
+
                     if (player.getPlayer_Health() <= 0) {
                         System.out.println("Game over you dead!");
                         break;
@@ -69,8 +128,9 @@ public class UserPlayMenu extends LevelHandlers {
                     temp.setAttack_cards(temp.getAttack_cards() + 1);
                     System.out.println("after_passing_gameplay:" + current_level + " \n" + "attackCard + 2"
                             + temp.getAttack_cards());
+                    // Thread.sleep(100000);
                 }
-
+                // showMenu(frame, hero_section_panel, panel_bottom);
                 Cards card = (Cards) player;
                 System.out.println("Player Health: " + player.getPlayer_Health() + " Heal_Cards:" + card.getHeal_cards()
                         + " Attack_Cards:" + card.getAttack_cards() + " Defense_Cards:" + card.getDefense_cards()
@@ -86,7 +146,9 @@ public class UserPlayMenu extends LevelHandlers {
         JPanel enemy_layout_panel = new JPanel();
         enemy_layout_panel.setLayout(new FlowLayout());
 
-        for (int i = 0; i < current_level; i++) {
+        for (int i = 0; i < current_level || i < 4
+
+        ; i++) {
             Enemy_Postions.PlaceEnemiesInstances(enemy_layout_panel);
         }
         return (enemy_layout_panel);
@@ -100,19 +162,29 @@ public class UserPlayMenu extends LevelHandlers {
         enemy_Array_length_Adjutment(level);
     }
 
+    public void gameplay_trigger() {
+        gamePlay(Play_Board, current_level);
+    }
+
     public void gamePlay(current_user[][] Play_Board, int size) {
         int level_in_progress = current_level;
         while (player.getPlayer_Health() > 0 && boss.getPlayer_Health() > 0 && level_in_progress == current_level) {
-            System.out.println("Choose your card: ");
-            System.out.println("1. Attack");
-            System.out.println("2. Defense");
-            System.out.println("3. Heal");
-            System.out.println("4. Replinish");
+            // System.out.println("Choose your card: ");
+            // System.out.println("1. Attack");
+            // System.out.println("2. Defense");
+            // System.out.println("3. Heal");
+            // System.out.println("4. Replinish");
 
+            String[] card_choices = { "Attack", "Defense", "Heal", "Replinish" };
+            int cardChoice = JOptionPane.showOptionDialog(null, "Choose your card: ",
+                    "Legion Terminator",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, card_choices,
+                    card_choices[0]);
             Scanner sc = new Scanner(System.in);
-            int cardChoice = sc.nextInt();
+            // int cardChoice = sc.nextInt();
             Cards userPlayer = (Cards) player;
             boolean result = false;
+            cardChoice += 1;
             switch (cardChoice) {
 
                 case 1:
@@ -135,9 +207,9 @@ public class UserPlayMenu extends LevelHandlers {
                     if (result) {
                         System.out.println("Level: " + current_level + " Completed 🏆");
                         current_level++;
-                        // call init func for enemy
-                        // setCurrentLevel(current_level);
-                        System.out.println("dummy check gameplay complete condtion: current_level: " + current_level);
+
+                        // System.out.println("dummy check gameplay complete condtion: current_level: "
+                        // + current_level);
                         break;
                     }
                     System.out.println("Player Health: " + player.getPlayer_Health() + " Heal_Cards:"
@@ -189,6 +261,9 @@ public class UserPlayMenu extends LevelHandlers {
                     break;
                 default:
                     System.out.println("Invalid choice");
+                    result = true;
+                    player_health = 0;
+                    current_level = -2;
                     break;
             }
             if (result)
@@ -257,4 +332,9 @@ public class UserPlayMenu extends LevelHandlers {
             }
         }
     }
+
+    // public void showMenu(JFrame frame, JPanel hero_section_panel, JPanel
+    // panel_bottom) {
+
+    // }
 }
