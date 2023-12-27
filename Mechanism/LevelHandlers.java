@@ -13,8 +13,8 @@ public class LevelHandlers extends Mechanism {
         player = new User();
         boss = new Boss();
         this.initailiazing_enemies();
-        System.out.println("Player Health: " + player.getPlayer_Health());
-        System.out.println("Boss Health: " + boss.getPlayer_Health());
+        // System.out.println("Player Health: " + player.getPlayer_Health());
+        // System.out.println("Boss Health: " + boss.getPlayer_Health());
     }
 
     public class current_user {
@@ -44,7 +44,7 @@ public class LevelHandlers extends Mechanism {
     public boolean isLevelCompleted(current_user[][] Play_Board, int total_enemies) {
 
         // coment this code below
-        System.out.println("iscompleted function check is called<>");
+        // System.out.println("iscompleted function check is called<>");
         for (current_user[] e : Play_Board) {
             for (current_user f : e) {
                 if (f != null) {
@@ -63,16 +63,17 @@ public class LevelHandlers extends Mechanism {
             for (current_user f : e) {
 
                 if (f != null) {
-                    System.out.println("Player_close_death: " + f.enemy.getPlayer_Health());
+
+                    // System.out.println("Player_close_death: " + f.enemy.getPlayer_Health());
                     if (f.enemy.getPlayer_Health() <= 0) {
                         f = null; // set the enemy to null
                         Play_Board[i][j] = null;
                         total_enemies_dead++;
-                        System.out.println("total_enemies_dead: " + total_enemies_dead);
+
                         enemies[j] = null;
                     }
                     if (total_enemies_dead == total_enemies) {
-                        System.out.println("All enemies dead huu!{<>}");
+                        System.out.println("< All enemies dead >");
                         total_enemies_dead = 0;
 
                         return true;
@@ -83,6 +84,7 @@ public class LevelHandlers extends Mechanism {
             }
             i++;
         }
+        System.out.println("total_enemies_dead: " + total_enemies_dead);
         return false;
 
     }

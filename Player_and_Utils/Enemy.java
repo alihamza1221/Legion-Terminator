@@ -27,13 +27,13 @@ public class Enemy extends Cards {
 
         int total_attacks = 0;
         int i = 0;
-        System.out.println("is attack found:" + random_enemy_attack);
+        // System.out.println("is attack found:" + random_enemy_attack);
         while (total_attacks < random_enemy_attack && i < enemies.length) {
 
             if (enemies[i] instanceof Cards) {
 
                 Cards enemy = (Cards) enemies[i];
-                System.out.println("---{ " + enemy.getAttack_cards() + "}");
+                // System.out.println("---{ " + enemy.getAttack_cards() + "}");
                 if (enemy.getAttack_cards() > 0) {
                     enemy.setAttack_cards(enemy.getAttack_cards() - 1);
                     enemy.setTotal_cards(enemy.getTotal_cards() - 1);
@@ -43,7 +43,7 @@ public class Enemy extends Cards {
                         System.out.println("You lost!");
                         return new boolean[] { true, false };
                     }
-                    System.out.println("EnemyAttack: player_health:" + player.getPlayer_Health());
+                    System.out.println("EnemyAttack:> player_health:" + player.getPlayer_Health());
                     total_attacks++;
                 }
             }
@@ -83,7 +83,7 @@ public class Enemy extends Cards {
                     enemy.setDefense_cards(enemy.getDefense_cards() - 1);
                     enemy.setTotal_cards(enemy.getTotal_cards() - 1);
                     enemy.setPlayer_Health(player.getPlayer_Health() + 1);
-                    System.out.println("enemy_health:" + enemy.getPlayer_Health());
+                    System.out.println("Enemy_health: " + enemy.getPlayer_Health());
                     total_defenses++;
                 }
             }
@@ -120,7 +120,7 @@ public class Enemy extends Cards {
                     enemy.setHeal_cards(enemy.getHeal_cards() - 1);
                     enemy.setTotal_cards(enemy.getTotal_cards() - 1);
                     enemy.setPlayer_Health(enemy.getPlayer_Health() + 1);
-                    System.out.println("enemy_health:" + enemy.getPlayer_Health());
+                    System.out.println("Enemy_health: " + enemy.getPlayer_Health());
                     total_heals++;
                 }
             }
@@ -168,7 +168,8 @@ public class Enemy extends Cards {
                         System.out.println("LuckyCard: Heal Card +1 updated_Cards :" + enemy.getHeal_cards());
                     } else {
                         enemy.setReplinish_cards(enemy.getReplinish_cards() + 1);
-                        System.out.println("LuckyCard: Replinish Card +1 updated_Cards :" + enemy.getReplinish_cards());
+                        System.out
+                                .println("LuckyCard: Replinish Card +1 updated_Cards : " + enemy.getReplinish_cards());
                     }
                     total_replinish++;
                 }
