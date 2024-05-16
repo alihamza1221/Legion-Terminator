@@ -52,7 +52,6 @@ public class UserPlayMenu extends LevelHandlers {
             enemy_layout_panel = e_layout_add();
             hero_section_panel.add(enemy_layout_panel, BorderLayout.CENTER);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -87,56 +86,24 @@ public class UserPlayMenu extends LevelHandlers {
                 // System.out.println("Welcome " + name + " to Legion Terminator");
                 JOptionPane.showMessageDialog(null, "Welcome " + name + " to Legion Terminator");
 
-                // System.out.println("Choose your level: ");
-                // System.out.println("1. Easy");
-                // System.out.println("2. Medium");
-                // System.out.println("3. Hard");
-                // System.out.println("4. Exit");
-                // int level = sc.nextInt();
                 String[] level_choices = { "Easy", "Medium", "Hard", "Exit" };
                 int level = JOptionPane.showOptionDialog(null, "Choose your level: ", "Legion Terminator",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, level_choices, level_choices[0]);
                 level = level + 1;
-                // level == Speed of the enemy approching towards the end
-                // currentTimeInSeconds = currentTimeInSeconds + level;
 
                 Play_Board = new current_user[10][10];
                 current_level = level;
-                // final Object lock = new Object();
+        
                 while (level < 10 && current_level > 0 && current_level < 10) {
                     System.out.println("((( You are in:" + current_level + " level )))");
-                    // System.out.println("You have " + current_level + " enemy");
-
+          
                     JOptionPane.showMessageDialog(null, "WELCOME YOU ARE IN " + current_level + "LEVEL");
 
                     setCurrentLevel(current_level);
-                    // System.out.println("after_passing_setcurrnet_level:" + current_level + "
-                    // \n");
-
                     PlaceEnemies(Play_Board, enemies.length);
-                    // System.out.println("enemies length_check_after placement_top_loop " +
-                    // enemies.length);
-                    // Game rules and gamePlay starts from here
+            
                     gamePlay(Play_Board, enemies.length);
 
-                    // Run the GUI in a separate thread
-                    // SwingUtilities.invokeLater(new Runnable() {
-                    // public void run() {
-                    //
-                    // synchronized (lock) {
-                    // lock.notify();
-                    // }
-                    // }
-                    // });
-
-                    // Wait until the GUI has finished updating
-                    // synchronized (lock) {
-                    // try {
-                    // lock.wait();
-                    // } catch (InterruptedException e) {
-                    // e.printStackTrace();
-                    // }
-                    // }
                     Cards temp = (Cards) player;
                     if (player.getPlayer_Health() <= 0 || temp.getAttack_cards() <= 0 || temp.getTotal_cards() <= 0) {
                         System.out.println("Game over you dead!");
@@ -148,18 +115,9 @@ public class UserPlayMenu extends LevelHandlers {
                     temp.setAttack_cards(temp.getAttack_cards() + 1);
                     System.out.println("New Level: " + current_level);
 
-                    // Thread.sleep(100000);
                     DisplayEnemycharacteristics(Play_Board);
                 }
-                // showMenu(frame, hero_section_panel, panel_bottom);
                 Cards card = (Cards) player;
-                // System.out.println("Player Health: " + player.getPlayer_Health() + "
-                // Heal_Cards:" + card.getHeal_cards()
-                // + " Attack_Cards:" + card.getAttack_cards() + " Defense_Cards:" +
-                // card.getDefense_cards()
-                // + " Replinish_Cards:" + card.getReplinish_cards() + " Total_Cards:" +
-                // card.getTotal_cards());
-                // System.out.println("Boss Health: " + boss.getPlayer_Health());
 
             }
         }
@@ -193,12 +151,6 @@ public class UserPlayMenu extends LevelHandlers {
     public void gamePlay(current_user[][] Play_Board, int size) {
         int level_in_progress = current_level;
         while (player.getPlayer_Health() > 0 && boss.getPlayer_Health() > 0 && level_in_progress == current_level) {
-            // System.out.println("Choose your card: ");
-            // System.out.println("1. Attack");
-            // System.out.println("2. Defense");
-            // System.out.println("3. Heal");
-            // System.out.println("4. Replinish");
-
             String[] card_choices = { "Attack", "Defense", "Heal", "Replinish" };
             int cardChoice = JOptionPane.showOptionDialog(null, "Choose your card: ",
                     "Legion Terminator",
@@ -216,13 +168,6 @@ public class UserPlayMenu extends LevelHandlers {
             player_tabel = new JTable(player_model);
             Cards player_Instance = (Cards) player;
 
-            // Object[] row_data = { player.getPlayer_Health(),
-            // player_Instance.getAttack_cards(),
-            // player_Instance.getHeal_cards(), player_Instance.getDefense_cards(),
-            // player_Instance.getReplinish_cards(), player_Instance.getTotal_cards() };
-            // player_model.addRow(row_data);
-            // menu_frame.add(player_tabel);
-            // menu_frame.setVisible(true);
             System.out.println("[ Player Health: " + player.getPlayer_Health() + " Attack Cards: "
                     + player_Instance.getAttack_cards() + " Heal Cards: " + player_Instance.getAttack_cards()
                     + " Defence Cards: " + player_Instance.getDefense_cards() + " Replenish Cards: "
@@ -240,8 +185,6 @@ public class UserPlayMenu extends LevelHandlers {
 
                     userPlayer.setAttack_cards(userPlayer.getAttack_cards() - 1);
                     userPlayer.setTotal_cards(userPlayer.getTotal_cards() - 1);
-                    // System.out.println("userPlayer_Health: " + player.getPlayer_Health());
-                    // That's Ninja's turn all enemies are gonna share the consequences
 
                     enemyHealthDecreaseOnAttack(Play_Board, size);
 
@@ -250,21 +193,10 @@ public class UserPlayMenu extends LevelHandlers {
                     if (result) {
                         System.out.println("Level: " + current_level + " Completed 🏆");
                         current_level++;
-
-                        // System.out.println("dummy check gameplay complete condtion: current_level: "
-                        // + current_level);
                         break;
                     }
-                    // System.out.println("Player Health: " + player.getPlayer_Health() + "
-                    // Heal_Cards:"
-                    // + userPlayer.getHeal_cards() + " Attack_Cards:" +
-                    // userPlayer.getAttack_cards()
-                    // + " Defense_Cards:" + userPlayer.getDefense_cards() + " Replinish_Cards:"
-                    // + userPlayer.getReplinish_cards() + " Total_Cards:" +
-                    // userPlayer.getTotal_cards());
 
                     DisplayEnemycharacteristics(Play_Board);
-
                     break;
                 case 2:
                     System.out.println("You have chosen Defense card");
@@ -317,7 +249,7 @@ public class UserPlayMenu extends LevelHandlers {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
+                // TODO
                 e.printStackTrace();
             }
             if (result)
@@ -348,18 +280,14 @@ public class UserPlayMenu extends LevelHandlers {
 
     void PlaceEnemies(current_user[][] Play_Board, int size) {
         for (int i = 0; i < enemies.length; i++) {
-            // System.out.println("Inside enemy placement>(" + enemies.length);
-
             if (enemies != null && enemies[i] != null) {
                 Play_Board[0][i] = new current_user(player.player_health, enemies[i], 0);
-                // System.out.println("Inside enemy placement" + enemies[i].getPlayer_Health());
             }
 
         }
     }
 
     void enemyHealthDecreaseOnAttack(current_user[][] Play_Board, int size) {
-        // System.out.println("current_level:{" + current_level + "}");
         int attackPowerCount = current_level / 2 + 1;
         for (current_user[] e : Play_Board) {
             for (current_user f : e) {
@@ -367,11 +295,10 @@ public class UserPlayMenu extends LevelHandlers {
                     if (f.enemy instanceof Cards) {
                         Cards enemyCards = (Cards) f.enemy;
                         enemyCards.setPlayer_Health(enemyCards.getPlayer_Health() - 1);
-                        // System.out.println("e_health: {" + enemyCards.getPlayer_Health() + "}");
+   
                         attackPowerCount--;
                         if (enemyCards.getPlayer_Health() == 0) {
                             System.out.println("Enemy is dead");
-                            // f = null;
                         }
                         if (attackPowerCount == 0) {
                             break;
@@ -397,9 +324,4 @@ public class UserPlayMenu extends LevelHandlers {
             }
         }
     }
-
-    // public void showMenu(JFrame frame, JPanel hero_section_panel, JPanel
-    // panel_bottom) {
-
-    // }
 }
