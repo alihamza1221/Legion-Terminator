@@ -13,15 +13,12 @@ public class Mechanism extends Player {
     }
 
     public Mechanism() {
-        // dynamic array for the count of num of enemies according to the Level
-        // System.out.println("lenArr:" + enemies.length + " level:" + current_level);
+   
         if (super.current_level > enemies.length) {
             enemy_Array_length_Adjutment(current_level);
         } else if (current_level < enemies.length) {
             enemy_Array_length_Adjutment(current_level);
         }
-        // System.out.println("-->lenArr:" + enemies.length + " level:" +
-        // current_level);
     }
 
     void enemy_Array_length_Adjutment(int level) {
@@ -35,12 +32,6 @@ public class Mechanism extends Player {
         current_level = level;
 
         enemies = temp;
-
-        for (int j = 0; j < enemies.length; j++) {
-            // System.out.print("enemies[" + j + "]:" + enemies[j].getPlayer_Health() + "
-            // ");
-        }
-
     }
 
     public int EnemyCardPicker() {
