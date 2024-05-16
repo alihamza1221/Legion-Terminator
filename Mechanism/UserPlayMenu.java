@@ -69,7 +69,6 @@ public class UserPlayMenu extends LevelHandlers {
 
         int response = JOptionPane.YES_NO_OPTION;
 
-        // char choice;
         Scanner sc = new Scanner(System.in);
 
         while (response == JOptionPane.YES_OPTION) {
@@ -78,12 +77,9 @@ public class UserPlayMenu extends LevelHandlers {
             if (response == JOptionPane.NO_OPTION)
                 return;
             if (response == JOptionPane.YES_OPTION) {
-                // System.out.println("Enter your name: ");
-                // String name = sc.next();
                 String name = JOptionPane.showInputDialog("Enter your name: ");
                 User user = (User) player;
                 user.player_name = name;
-                // System.out.println("Welcome " + name + " to Legion Terminator");
                 JOptionPane.showMessageDialog(null, "Welcome " + name + " to Legion Terminator");
 
                 String[] level_choices = { "Easy", "Medium", "Hard", "Exit" };
@@ -136,11 +132,8 @@ public class UserPlayMenu extends LevelHandlers {
     }
 
     public void setCurrentLevel(int level) {
-        // System.out.println("Current Level_inside_setcurrent: " + current_level +
-        // "level:" + level + "\n");
 
         current_level = level;
-
         enemy_Array_length_Adjutment(level);
     }
 
@@ -157,7 +150,6 @@ public class UserPlayMenu extends LevelHandlers {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, card_choices,
                     card_choices[0]);
             Scanner sc = new Scanner(System.in);
-            // int cardChoice = sc.nextInt();
             Cards userPlayer = (Cards) player;
             boolean result = false;
             cardChoice += 1;
@@ -312,7 +304,7 @@ public class UserPlayMenu extends LevelHandlers {
     void DisplayEnemycharacteristics(current_user[][] Play_Board) {
         for (current_user[] e : Play_Board) {
             for (current_user f : e) {
-                if (f != null)
+                if (f != null){
                     if (f.enemy instanceof Cards) {
                         Cards enemyCards = (Cards) f.enemy;
                         System.out.print("[ E_health: " + enemyCards.getPlayer_Health() + " Attack Cards: "
