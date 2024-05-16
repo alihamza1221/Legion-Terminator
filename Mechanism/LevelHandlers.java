@@ -7,14 +7,12 @@ import Player_and_Utils.Player;
 import Player_and_Utils.User;
 
 public class LevelHandlers extends Mechanism {
-    // static long currentTimeInSeconds = System.currentTimeMillis() / 1000;
 
     public LevelHandlers() {
         player = new User();
         boss = new Boss();
         this.initailiazing_enemies();
-        // System.out.println("Player Health: " + player.getPlayer_Health());
-        // System.out.println("Boss Health: " + boss.getPlayer_Health());
+ 
     }
 
     public class current_user {
@@ -63,8 +61,6 @@ public class LevelHandlers extends Mechanism {
             for (current_user f : e) {
 
                 if (f != null) {
-
-                    // System.out.println("Player_close_death: " + f.enemy.getPlayer_Health());
                     if (f.enemy.getPlayer_Health() <= 0) {
                         f = null; // set the enemy to null
                         Play_Board[i][j] = null;
